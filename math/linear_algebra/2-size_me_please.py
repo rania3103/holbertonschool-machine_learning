@@ -6,11 +6,14 @@ def matrix_shape(matrix):
     """returns a list of integers"""
     if matrix:
         numb_rows = len(matrix)
-        numb_cols = len(matrix[0])
-        if isinstance(matrix[0][0], list):
-            numb_items = len(matrix[0][0])
-            return [numb_rows, numb_cols, numb_items]
+        if isinstance(matrix[0], list):
+            numb_cols = len(matrix[0])
+            if isinstance(matrix[0][0], list):
+                numb_items = len(matrix[0][0])
+                return [numb_rows, numb_cols, numb_items]
+            else:
+                return [numb_rows, numb_cols]
         else:
-            return [numb_rows, numb_cols]
+            return [numb_rows]
     else:
         return []
