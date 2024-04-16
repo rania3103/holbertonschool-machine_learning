@@ -16,3 +16,5 @@ def cat_matrices2D(mat1, mat2, axis=0):
             new_row.append(temp)
         new_mat += new_row
         return new_mat
+    elif len(mat1) != len(mat2) or not mat1 or not mat2:
+        return None
