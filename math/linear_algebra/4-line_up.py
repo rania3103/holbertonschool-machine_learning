@@ -11,7 +11,7 @@ def add_arrays(arr1, arr2):
         mat = []
         mat += [arr1]
         mat += [arr2]
-        for col in range(len(mat) * 2):
+        for col in range(len(arr1)):
             sum_col = 0
             for row in range(2):
                 sum_col += mat[row][col]
