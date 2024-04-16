@@ -10,6 +10,9 @@ def matrix_shape(matrix):
             numb_cols = len(matrix[0])
             if isinstance(matrix[0][0], list):
                 numb_items = len(matrix[0][0])
+                while isinstance(matrix[0][0], list):
+                    matrix = matrix[0]
+                    numb_items = len(matrix[0])
                 return [numb_rows, numb_cols, numb_items]
             else:
                 return [numb_rows, numb_cols]
