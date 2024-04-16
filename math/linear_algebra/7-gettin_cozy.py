@@ -4,9 +4,6 @@
 
 def cat_matrices2D(mat1, mat2, axis=0):
     """returns a new matrix if possible otherwise none"""
-    if not mat1 or not mat2 or len(mat1) != len(
-            mat2) or len(mat1[0]) != len(mat2[0]):
-        return None
     new_mat = []
     if axis == 0:
         new_mat += mat1
