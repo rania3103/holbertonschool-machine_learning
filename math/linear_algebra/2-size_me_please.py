@@ -13,7 +13,7 @@ def matrix_shape(matrix):
         else:
             while isinstance(matrix[0][0], list):
                 matrix = matrix[0]
-            numb_cols = len(matrix)
+                numb_cols = len(matrix)
             return [numb_rows, numb_cols, len(matrix[0])]
     else:
         return []
