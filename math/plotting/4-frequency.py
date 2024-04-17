@@ -10,7 +10,7 @@ def frequency():
     student_grades = np.random.normal(68, 15, 50)
     plt.figure(figsize=(6.4, 4.8))
     plt.title('Project A')
-    plt.hist(student_grades, 10, (0, 100), edgecolor='black')
+    plt.hist(student_grades, range=(0, 100), bins=10, edgecolor='black')
     plt.xlabel('Grades')
     plt.ylabel('Number of Students')
     plt.show()
