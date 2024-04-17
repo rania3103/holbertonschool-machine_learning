@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+"""code to plot y as a line graph"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-"""code to plot y as a line graph"""
 
 
 def line():
