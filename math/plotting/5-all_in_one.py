@@ -28,11 +28,11 @@ def all_in_one():
 
     np.random.seed(5)
     student_grades = np.random.normal(68, 15, 50)
-
+    # plots
     fig, axs = plt.subplots(3, 2)
     fig.suptitle('All in One', fontsize="x-small")
-    # plot1
     plot1, plot2, plot3, plot4 = axs[0, 0], axs[0, 1], axs[1, 0], axs[1, 1]
+    # plot1
     plot1.plot(y0, '-r')
     # plot2
     plot2.scatter(x1, y1, c="magenta")
