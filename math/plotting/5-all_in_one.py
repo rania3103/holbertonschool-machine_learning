@@ -70,3 +70,4 @@ def all_in_one():
     plot5.set_xticks(np.arange(0, 101, 10))
     fig.tight_layout()
     plt.show()
+all_in_one()
