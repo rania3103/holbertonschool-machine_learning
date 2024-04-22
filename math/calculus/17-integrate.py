@@ -15,7 +15,4 @@ def poly_integral(poly, C=0):
                 integral_coef.append(0)
             else:
                 integral_coef.append(poly[i] // (i + 1))
-        if all(coef == 0 for coef in integral_coef):
-            return [0]
-        else:
-            return integral_coef
+        return integral_coef
