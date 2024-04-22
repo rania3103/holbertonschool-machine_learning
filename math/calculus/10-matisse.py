@@ -5,8 +5,9 @@
 def poly_derivative(poly):
     """Returns a new list of coefficients representing
     the derivative of the polynomial"""
-    if not poly:
+    if not isinstance(poly, list) or not poly:
         return None
+    elif
     else:
         derv_coef = poly[1:]
         for i in range(1, len(derv_coef)):
