@@ -11,8 +11,6 @@ def poly_integral(poly, C=0):
         integral_coef = [C]
         if len(poly) == 1 and poly[0] == C:
             return integral_coef
-        elif all(poly[i] == 0 for i in range(1, len(poly))):
-            return [poly[0]]
         else:
             integral_coef.append(poly[0])
             for i in range(1, len(poly)):
