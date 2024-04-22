@@ -12,4 +12,6 @@ def poly_derivative(poly):
         for i in range(1, len(derv_coef)):
             if derv_coef[i] != 0:
                 derv_coef[i] *= i + 1
+            else:
+                return [0]
         return derv_coef
