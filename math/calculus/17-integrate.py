@@ -9,7 +9,8 @@ def poly_integral(poly, C=0):
         return None
     else:
         integral_coef = [C]
-        if len(poly) == 1 and poly[0] == C:
+        if (len(poly) == 1 and poly[0] == C) or all(
+                coef == 0 for coef in poly):
             return integral_coef
         else:
             integral_coef.append(poly[0])
