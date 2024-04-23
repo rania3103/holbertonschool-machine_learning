@@ -36,6 +36,10 @@ Calculus studies how things change, helping in ML by optimizing models and under
 
 <img src ="./img/task7.png">
 
+### task 8
+
+<img src ="./img/task8.png">
+
 ### task 11
 
 <img src ="./img/task11.png">
