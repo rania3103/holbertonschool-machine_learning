@@ -46,6 +46,8 @@ class Node:
 
 
 class Leaf(Node):
+    """Leaf class that inherits from Node class"""
+
     def __init__(self, value, depth=None):
         super().__init__()
         self.value = value
@@ -57,6 +59,8 @@ class Leaf(Node):
 
 
 class Decision_Tree():
+    """Decision_Tree class"""
+
     def __init__(
             self,
             max_depth=10,
