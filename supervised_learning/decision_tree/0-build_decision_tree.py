@@ -4,6 +4,8 @@ import numpy as np
 
 
 class Node:
+    """Node class"""
+
     def __init__(
             self,
             feature=None,
