@@ -93,7 +93,7 @@ class Node:
             first_line = 'root [feature={}, threshold={}]'.format(
                 self.feature, self.threshold)
         else:
-            first_line = '->node [feature={}, threshold={}]'.format(
+            first_line = '-> node [feature={}, threshold={}]'.format(
                 self.feature, self.threshold)
         return '{}\n{}{}'.format(
             first_line, self.left_child_add_prefix(
