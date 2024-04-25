@@ -85,12 +85,16 @@ class Node:
 
     def __str__(self):
         """string representation of node"""
-        first_line = 'root [feature={}, threshold={}]'.format(
-            self.feature, self.threshold)
-        return '{}\n{}\n{}'.format(
+        if self.is_root:
+            first_line = 'root [feature={}, threshold={}]'.format(
+                self.feature, self.threshold)
+        else:
+            first_line = 'node [feature={}, threshold={}]'.format(
+                self.feature, self.threshold)
+        return '{}\n{}{}'.format(
             first_line, self.left_child_add_prefix(
-                self.left_child.__str__()), self.right_child_add_prefix(
-                self.right_child.__str__()))
+                str(self.left_child)), self.right_child_add_prefix(
+                str(self.right_child)))
 
 
 class Leaf(Node):
