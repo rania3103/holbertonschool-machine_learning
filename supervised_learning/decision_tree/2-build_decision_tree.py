@@ -71,7 +71,7 @@ class Node:
         """add prefix to the left child"""
         lines = text.split("\n")
         new_text = "    +--" + lines[0] + "\n"
-        for x in lines[1:-1]:
+        for x in lines[1:]:
             new_text += ("    |  " + x) + "\n"
         return (new_text)
 
@@ -83,9 +83,9 @@ class Node:
             new_text = "    +--->" + lines[0] + "\n"
         else:
             new_text = "    +--" + lines[0] + "\n"
-        for x in lines[1:-1]:
+        for x in lines[1:]:
             new_text += ("      " + x) + "\n"
-        return (new_text)
+        return (new_text.rstrip())
 
     def __str__(self):
         """string representation of node"""
