@@ -87,7 +87,7 @@ class Node:
         """string representation of node"""
         first_line = 'root [feature={}, threshold={}]'.format(
             self.feature, self.threshold)
-        return '{}\n{}{}'.format(
+        return '{}\n{}\n{}'.format(
             first_line, self.left_child_add_prefix(
                 self.left_child.__str__()), self.right_child_add_prefix(
                 self.right_child.__str__()))
