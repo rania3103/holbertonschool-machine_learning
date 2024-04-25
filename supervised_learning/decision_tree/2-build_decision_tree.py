@@ -80,7 +80,7 @@ class Node:
         lines = text.split("\n")
         if str(self.right_child).split(' ')[0] == 'node' or str(
                 self.left_child).split(' ')[0] == 'node':
-            new_text = "    +--->" + lines[0]
+            new_text = "    +--->" + lines[0] + "\n"
         else:
             new_text = "    +--" + lines[0] + "\n"
         for x in lines[1:-1]:
