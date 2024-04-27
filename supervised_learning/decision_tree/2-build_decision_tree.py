@@ -96,7 +96,7 @@ class Node:
         return '{}\n{}{}'.format(
             first_line, self.left_child_add_prefix(
                 str(self.left_child)), self.right_child_add_prefix(
-                str(self.right_child)))
+                str(self.right_child))).lstrip().rstrip()
 
 
 class Leaf(Node):
