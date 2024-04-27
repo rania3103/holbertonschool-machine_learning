@@ -171,5 +171,5 @@ class Decision_Tree():
         return self.root.__str__()
 
     def get_leaves(self):
-        """"""
+        """returns the list of all leaves of the tree."""
         return self.root.get_leaves_below()
