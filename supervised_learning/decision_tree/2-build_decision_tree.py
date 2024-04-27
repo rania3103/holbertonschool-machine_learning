@@ -80,9 +80,9 @@ class Node:
         lines = text.split("\n")
         # if str(self.right_child).split(' ')[0] == 'node' or str(
         #         self.left_child).split(' ')[0] == 'node':
-        new_text = "    +--" + lines[0] + "\n"
+        new_text = "    +--" + lines[0]
         for x in lines[1:]:
-            new_text += "       " + x + "\n"
+            new_text += "\n       " + x
         return (new_text.rstrip())
 
     def __str__(self):
@@ -96,7 +96,7 @@ class Node:
         return '{}\n{}{}'.format(
             first_line, self.left_child_add_prefix(
                 str(self.left_child)), self.right_child_add_prefix(
-                str(self.right_child))).lstrip().rstrip()
+                str(self.right_child)))
 
 
 class Leaf(Node):
