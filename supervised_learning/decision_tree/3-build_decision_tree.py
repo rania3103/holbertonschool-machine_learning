@@ -99,14 +99,14 @@ class Node:
     def get_leaves_below(self):
         """ returns the list of all leaves of the tree."""
         list_leaves = []
-        while (self.right_child):
-            if self.right_child.is_leaf:
-                list_leaves.append(self.right_child)
-            self = self.right_child
-        while (self.left_child):
-            if self.left_child.is_leaf:
-                list_leaves.append(self.left_child)
-            self = self.left_child
+        if self.left_child and self.left_child.is_leaf:
+            list_leaves.append(self.left_child)
+        else:
+            list_leaves += self.left_child.get_leaves_below()
+        if self.right_child and self.right_child.is_leaf:
+            list_leaves.append(self.right_child)
+        else:
+            list_leaves += self.right_child.get_leaves_below()
         return list_leaves
 
 
@@ -171,5 +171,5 @@ class Decision_Tree():
         return self.root.__str__()
 
     def get_leaves(self):
-        """returns the list of all leaves of the tree."""
+        """"""
         return self.root.get_leaves_below()
