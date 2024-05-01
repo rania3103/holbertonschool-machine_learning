@@ -26,7 +26,7 @@ class NeuralNetwork:
         if nodes < 1:
             raise ValueError('nodes must be a positive integer')
         self.W1, self.W2 = np.random.randn(
-            nx, nodes), np.random.randn(
+            nodes, nx), np.random.randn(
             1, nodes)
         self.b1, self.A1 = 0, 0
         self.b2, self.A2 = 0, 0
