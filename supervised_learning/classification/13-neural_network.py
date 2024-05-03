@@ -88,7 +88,8 @@ class NeuralNetwork:
         """Calculates one pass of gradient descent
         on the neural network"""
         self.__W2 -= alpha * np.matmul((A2 - Y), (A1.T)) / len(Y[0])
-        self.__b2 -= alpha * np.sum(A2 - Y).reshape(1, 1) / len(Y[0])
+        self.__b2 -= alpha * \
+            np.sum(A2 - Y).reshape(len(A2), len(A2)) / len(Y[0])
         mul = np.matmul(self.__W2.T, (A2 - Y)) * A1 * (1 - A1)
         self.__W1 -= alpha * np.matmul(mul, X.T) / len(Y[0])
         self.__b1 -= alpha * np.sum(mul) / len(Y[0])
