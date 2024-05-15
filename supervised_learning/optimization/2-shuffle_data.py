@@ -5,4 +5,5 @@ import numpy as np
 
 def shuffle_data(X, Y):
     """Returns: the shuffled X and Y matrices"""
-    return np.random.permutation(X), np.random.permutation(Y)
+    p = np.random.permutation(X.shape[0])
+    return X[p], Y[p]
