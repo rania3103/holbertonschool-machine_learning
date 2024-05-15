@@ -9,4 +9,4 @@ def calculate_accuracy(y, y_pred):
         tf.argmax(
             y, axis=1), tf.argmax(
             y_pred, axis=1), tf.shape(y_pred)[1])[0]
-    return tf.metrics.mean(acc)[0]
+    return tf.reduce_mean(acc)
