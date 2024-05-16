@@ -13,12 +13,14 @@ def create_mini_batches(X, Y, batch_size):
     num_batches = len(X) // batch_size
     batches = []
     for i in range(num_batches):
-        stard_ind = i * batch_size
-        end_ind = stard_ind + batch_size
-        batch_X = shuf_X[stard_ind:end_ind]
-        batch_Y = shuf_Y[stard_ind:end_ind]
-        if len(X) % batch_size != 0:
-            batch_X = shuf_X[stard_ind:]
-            batch_Y = shuf_Y[stard_ind:]
+        start_ind = i * batch_size
+        end_ind = start_ind + batch_size
+        batch_X = shuf_X[start_ind:end_ind]
+        batch_Y = shuf_Y[start_ind:end_ind]
         batches.append((batch_X, batch_Y))
+        if len(X) % batch_size != 0:
+            start_ind = i * batch_size
+            batch_X = shuf_X[start_ind:]
+            batch_Y = shuf_Y[start_ind:]
+            batches.append((batch_X, batch_Y))
     return batches
