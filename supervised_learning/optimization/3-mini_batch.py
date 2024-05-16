@@ -18,9 +18,4 @@ def create_mini_batches(X, Y, batch_size):
         batch_X = shuf_X[start_ind:end_ind]
         batch_Y = shuf_Y[start_ind:end_ind]
         batches.append((batch_X, batch_Y))
-        if len(X) % batch_size != 0:
-            start_ind = i * batch_size
-            batch_X = shuf_X[start_ind:]
-            batch_Y = shuf_Y[start_ind:]
-            batches.append((batch_X, batch_Y))
     return batches
