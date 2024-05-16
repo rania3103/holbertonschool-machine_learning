@@ -2,7 +2,6 @@
 """Write a function that creates mini-batches to be
 used for training a neural network using
 mini-batch gradient descent"""
-import numpy as np
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
