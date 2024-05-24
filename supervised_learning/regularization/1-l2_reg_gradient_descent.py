@@ -10,7 +10,7 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     biases of a neural network"""
     m = Y.shape[1]
     for lay in range(L):
-        a = cache['A' + str(lay + 1)] - Y
+        a = cache['A' + str(lay + 1)]
         prev_a = cache['A' + str(lay)]
         d_w = np.dot(a, prev_a.T) / m
         w = weights['W' + str(lay + 1)]
