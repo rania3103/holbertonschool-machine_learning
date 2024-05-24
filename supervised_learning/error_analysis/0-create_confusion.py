@@ -11,6 +11,6 @@ def create_confusion_matrix(labels, logits):
     con_mat = np.zeros((classes, classes), dtype=int)
     max_ind_list_labels = np.argmax(labels, axis=1)
     max_ind_list_logits = np.argmax(logits, axis=1)
-    for i in range(len(max_ind_list_labels)):
-        con_mat[max_ind_list_labels[i], max_ind_list_logits[i]] += 1
+    for i, j in zip(max_ind_list_labels, max_ind_list_logits):
+        con_mat[i, j] += 1
     return con_mat
