@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """write a function that determines if you should stop gradient descent early"""
-import tensorflow as tf
 
 
 def early_stopping(cost, opt_cost, threshold, patience, count):
