@@ -10,5 +10,5 @@ def l2_reg_cost(cost, model):
     accounting for L2 regularization"""
     reg_loss = []
     for layer in model.layers:
-        reg_loss.append(tf.reduce_sum(layer.losses))
+        reg_loss.append(tf.reduce_sum(layer.losses) + cost)
     return tf.stack(reg_loss[1:])
