@@ -9,4 +9,6 @@ def l2_reg_cost(cost, model):
     cost for each layer of the network,
     accounting for L2 regularization"""
     reg_loss = tf.add_n(model.losses)
+    if not isinstance(cost, tf.Tensor):
+        cost = tf.convert_to_tensor(cost, dtype=tf.float32)
     return cost + reg_loss
