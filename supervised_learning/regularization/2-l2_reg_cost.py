@@ -8,7 +8,7 @@ def l2_reg_cost(cost, model):
     """Returns: a tensor containing the total
     cost for each layer of the network,
     accounting for L2 regularization"""
-    reg_loss = tf.reduce_sum(model.losses)
-    if not isinstance(cost, tf.Tensor):
-        cost = tf.convert_to_tensor(cost, dtype=tf.float32)
-    return cost + reg_loss
+    reg_cost = []
+    for layer in model.layers:
+        reg_cost.append(layer + cost)
+    return reg_cost
