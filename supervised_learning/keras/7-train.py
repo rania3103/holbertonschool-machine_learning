@@ -3,7 +3,6 @@
 and also analyzes validaiton data and trains the model using early stopping
 and also trains the model with learning rate decay:"""
 import tensorflow.keras as K
-import tensorflow as tf
 
 
 def train_model(network, data, labels, batch_size, epochs,
