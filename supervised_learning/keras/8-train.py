@@ -33,7 +33,7 @@ def train_model(network, data, labels, batch_size, epochs,
         callbacks.append(lr_schedule_callback)
     if save_best:
         low_val_loss_callback = K.callbacks.ModelCheckpoint(
-            filepath, monitor='val_loss', save_best_only=True, verbose=1)
+            filepath, monitor='val_loss', save_best_only=True)
         callbacks.append(low_val_loss_callback)
     return network.fit(
         data,
