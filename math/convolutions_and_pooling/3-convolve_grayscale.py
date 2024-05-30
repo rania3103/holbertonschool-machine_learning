@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""a function that performs that performs a convolution on grayscale images"""
+"""a function that performs a convolution on grayscale images"""
 import numpy as np
 
 
