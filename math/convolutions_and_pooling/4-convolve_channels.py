@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""a function that performs that performs a convolution
+"""a function that performs a convolution
 on images with channels"""
 import numpy as np
 
