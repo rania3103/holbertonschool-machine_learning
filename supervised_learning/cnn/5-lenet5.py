@@ -26,17 +26,17 @@ def lenet5(X):
 
     flat = K.layers.Flatten()(max_pool_lay2)
 
-    fully_con1 = K.layers.dense(
+    fully_con1 = K.layers.Dense(
         units=120,
         kernel_initializer=K.initializers.VarianceScaling(scale=2.0),
         activation='relu')(flat)
 
-    fully_con2 = K.layers.dense(
+    fully_con2 = K.layers.Dense(
         units=84,
         kernel_initializer=K.initializers.VarianceScaling(scale=2.0),
         activation='relu')(fully_con1)
 
-    fully_con3 = K.layers.dense(
+    fully_con3 = K.layers.Dense(
         units=10,
         activation='softmax',
         kernel_initializer=K.initializers.VarianceScaling(
