@@ -42,17 +42,15 @@ def lenet5(x, y):
         kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0),
         activation=tf.nn.relu)
 
-    output = tf.layers.dense(
+    fully_con3 = tf.layers.dense(
         inputs=fully_con2,
         units=10,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0),
-        activation=tf.nn.softmax)
+        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0))
 
-    correct_pred = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
+    y_pred = tf.nn.softmax(fully_con3)
+    correct_pred = tf.equal(tf.argmax(y_pred, 1), tf.argmax(y, 1))
     acc = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
-    loss = tf.reduce_mean(
-        tf.nn.softmax_cross_entropy_with_logits_v2(
-            labels=y, logits=output))
+    loss = tf.losses.softmax_cross_entropy(onehot_labels=y, logits=fully_con3)
     grad_desc = tf.train.AdamOptimizer().minimize(loss)
-    return output, grad_desc, loss, acc
+    return y_pred, grad_desc, loss, acc
