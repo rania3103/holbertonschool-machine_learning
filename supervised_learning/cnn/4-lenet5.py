@@ -52,7 +52,7 @@ def lenet5(x, y):
     acc = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     loss = tf.reduce_mean(
-        tf.nn.softmax_cross_entropy_with_logits(
+        tf.nn.softmax_cross_entropy_with_logits_v2(
             labels=y, logits=output))
     grad_desc = tf.train.AdamOptimizer().minimize(loss)
     return output, grad_desc, loss, acc
