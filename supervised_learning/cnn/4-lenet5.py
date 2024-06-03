@@ -49,7 +49,7 @@ def lenet5(x, y):
         activation=tf.nn.softmax)
 
     correct_pred = tf.equal(tf.argmax(output, 1), tf.argmax(y, 1))
-    acc = tf.reduce_mean(correct_pred)
+    acc = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     loss = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(
