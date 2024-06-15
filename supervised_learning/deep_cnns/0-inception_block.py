@@ -23,7 +23,7 @@ def inception_block(A_prev, filters):
     max_pool = K.layers.MaxPooling2D((3, 3), strides=(
         1, 1), padding='same')(A_prev)
     max_pool_conv = K.layers.Conv2D(
-        FPP, (1, 1), padding='same')(max_pool)
+        FPP, (1, 1), padding='same', activation='relu')(max_pool)
 
     output = K.layers.Concatenate(
         axis=-1)([conv_1, conv_3, conv_5, max_pool_conv])
