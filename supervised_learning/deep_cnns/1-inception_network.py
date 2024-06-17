@@ -39,7 +39,7 @@ def inception_network():
             2, 2), padding='same')(incep7)
     incep8 = inception_block(pool4, [256, 160, 320, 32, 128, 128])
     incep9 = inception_block(incep8, [384, 192, 384, 48, 128, 128])
-    avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1,1))(incep9)
+    avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1, 1))(incep9)
     drop = K.layers.Dropout(0.4)(avg_pool)
     flatten = K.layers.Flatten()(drop)
     output_lay = K.layers.Dense(units=1000, activation='softmax')(drop)
