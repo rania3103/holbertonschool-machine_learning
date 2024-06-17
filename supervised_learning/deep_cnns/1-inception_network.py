@@ -15,7 +15,7 @@ def inception_network():
         (3, 3), strides=(
             2, 2), padding='same')(conv1)
 
-    conv2 = K.layers.Conv2D(64, (3, 3), strides=(
+    conv2 = K.layers.Conv2D(64, (1, 1), strides=(
         1, 1), activation='relu', padding='same')(pool1)
     conv2 = K.layers.Conv2D(192, (3, 3), strides=(
         1, 1), activation='relu', padding='same')(conv2)
