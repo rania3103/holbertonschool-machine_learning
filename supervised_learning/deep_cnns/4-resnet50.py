@@ -14,7 +14,7 @@ def resnet50():
     conv1 = K.layers.Conv2D(64, kernel_size=(7, 7), strides=(
         2, 2), padding='same', kernel_initializer=initializer)(input_lay)
 
-    bn1 = K.layers.BatchNormalization(axis=3)(conv1)
+    bn1 = K.layers.BatchNormalization(axis=-1)(conv1)
 
     relu1 = K.layers.Activation('relu')(bn1)
 
@@ -25,25 +25,26 @@ def resnet50():
     iden1 = identity_block(proj1, [64, 64, 256])
     iden2 = identity_block(iden1, [64, 64, 256])
 
-    proj2 = projection_block(iden2, [128, 128, 512])
+    proj2 = projection_block(iden2, [128, 128, 512], s=2)
     iden3 = identity_block(proj2, [128, 128, 512])
     iden4 = identity_block(iden3, [128, 128, 512])
     iden5 = identity_block(iden4, [128, 128, 512])
 
-    proj3 = projection_block(iden5, [256, 256, 1024])
+    proj3 = projection_block(iden5, [256, 256, 1024], s=2)
     iden6 = identity_block(proj3, [256, 256, 1024])
     iden7 = identity_block(iden6, [256, 256, 1024])
     iden8 = identity_block(iden7, [256, 256, 1024])
     iden9 = identity_block(iden8, [256, 256, 1024])
     iden10 = identity_block(iden9, [256, 256, 1024])
 
-    proj4 = projection_block(iden10, [512, 512, 2048])
+    proj4 = projection_block(iden10, [512, 512, 2048], s=2)
     iden11 = identity_block(proj4, [512, 512, 2048])
     iden12 = identity_block(iden11, [512, 512, 2048])
 
-    avg_pool = K.layers.AveragePooling2D((7, 7), strides=1)(iden12)
+    avg_pool = K.layers.AveragePooling2D((7, 7), padding='valid')(iden12)
+    flatten = K.layers.Flatten()(avg_pool)
     output_lay = K.layers.Dense(
         units=1000,
         activation='softmax',
-        kernel_initializer=initializer)(avg_pool)
-    return K.Model(inputs=input_lay, outputs=output_lay, name='resnet50')
+        kernel_initializer=initializer)(flatten)
+    return K.Model(inputs=input_lay, outputs=output_lay)
