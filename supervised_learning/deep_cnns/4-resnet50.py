@@ -18,7 +18,7 @@ def resnet50():
 
     relu1 = K.layers.Activation('relu')(bn1)
 
-    pool1 = K.layers.MaxPool2D(
+    pool1 = K.layers.MaxPooling2D(
         (3, 3), strides=(2, 2), padding='same')(relu1)
 
     proj1 = projection_block(pool1, [64, 64, 256], s=1)
