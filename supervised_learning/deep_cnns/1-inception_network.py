@@ -15,11 +15,11 @@ def inception_network():
             2, 2), padding='same')(conv1)
     conv2 = K.layers.Conv2D(64, (1, 1), strides=(
         1, 1), activation='relu', padding='same')(pool1)
-    conv2 = K.layers.Conv2D(192, (1, 1), strides=(
+    conv3 = K.layers.Conv2D(192, (3, 3), strides=(
         1, 1), activation='relu', padding='same')(conv2)
     pool2 = K.layers.MaxPooling2D(
         (3, 3), strides=(
-            2, 2), padding='same')(conv2)
+            2, 2), padding='same')(conv3)
     incep1 = inception_block(pool2, [64, 96, 128, 16, 32, 32])
     incep2 = inception_block(incep1, [128, 128, 192, 32, 96, 64])
     pool3 = K.layers.MaxPooling2D(
@@ -36,8 +36,7 @@ def inception_network():
     incep8 = inception_block(pool4, [256, 160, 320, 32, 128, 128])
     incep9 = inception_block(incep8, [384, 192, 384, 48, 128, 128])
     avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1, 1))(incep9)
-    avg_pool = K.layers.AveragePooling2D((7, 7), strides=(1, 1))(incep9)
     drop = K.layers.Dropout(0.4)(avg_pool)
     flatten = K.layers.Flatten()(drop)
-    output_lay = K.layers.Dense(units=1000, activation='softmax')(drop)
+    output_lay = K.layers.Dense(units=1000, activation='softmax')(flatten)
     return K.Model(inputs=input_lay, outputs=output_lay)
