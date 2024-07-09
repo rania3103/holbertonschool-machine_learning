@@ -6,4 +6,4 @@ import tensorflow as tf
 
 def create_momentum_op(alpha, beta1):
     """Returns: optimizer"""
-    return tf.train.MomentumOptimizer(learning_rate=alpha, momentum=beta1)
+    return tf.keras.optimizers.SGD(learning_rate=alpha, momentum=beta1)
