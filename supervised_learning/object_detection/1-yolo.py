@@ -38,13 +38,14 @@ class Yolo:
             for g_h in range(grid_height):
                 for g_w in range(grid_width):
                     for anchor in range(anchor_boxes):
-                        t_x, t_y = t_xy[g_h, g_w, anchor]
-                        t_w, t_h = t_wh[g_h, g_w, anchor]
-                        center_x = (t_x + g_w) / grid_width
-                        center_y = (t_y + g_h) / grid_height
-                        w = self.anchors[anchor][0] * np.exp(t_w) / image_width
-                        h = self.anchors[anchor][1] * \
-                            np.exp(t_h) / image_height
+                        center_x = (
+                            g_w + t_xy[g_h, g_w, anchor, 0]) / grid_width
+                        center_y = (
+                            g_h + t_xy[g_h, g_w, anchor, 1]) / grid_height
+                        w = t_wh[g_h, g_w, anchor, 0] * \
+                            self.anchors[anchor][0] / image_width
+                        h = t_wh[g_h, g_w, anchor, 1] * \
+                            self.anchors[anchor][1] / image_height
                         x1 = (center_x - w / 2) * image_width
                         y1 = (center_y - h / 2) * image_height
                         x2 = (center_x + w / 2) * image_width
