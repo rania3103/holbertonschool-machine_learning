@@ -8,5 +8,5 @@ def batch_norm(Z, gamma, beta, epsilon):
     """Returns: the normalized Z matrix"""
     mean = np.mean(Z, axis=0)
     var = np.var(Z, axis=0)
-    norm_Z = (Z - mean) * np.sqrt(var + epsilon)
+    norm_Z = (Z - mean) / np.sqrt(var + epsilon)
     return gamma * norm_Z + beta
