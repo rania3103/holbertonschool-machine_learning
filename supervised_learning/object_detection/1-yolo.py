@@ -33,22 +33,19 @@ class Yolo:
             box_class_prob = tf.sigmoid(output[..., 5:])
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
-            t_xy = tf.sigmoid(output[..., :2])
-            t_wh = tf.exp(output[..., 2:4])
+            box_xy = tf.sigmoid(output[..., :2])
+            box_wh = tf.exp(output[..., 2:4])
             for g_h in range(grid_height):
                 for g_w in range(grid_width):
                     for anchor in range(anchor_boxes):
-                        center_x = (
-                            g_w + t_xy[g_h, g_w, anchor, 0]) / grid_width
-                        center_y = (
-                            g_h + t_xy[g_h, g_w, anchor, 1]) / grid_height
-                        w = t_wh[g_h, g_w, anchor, 0] * \
-                            self.anchors[anchor][0] / image_width
-                        h = t_wh[g_h, g_w, anchor, 1] * \
-                            self.anchors[anchor][1] / image_height
-                        x1 = (center_x - w / 2) * image_width
-                        y1 = (center_y - h / 2) * image_height
-                        x2 = (center_x + w / 2) * image_width
-                        y2 = (center_y + h / 2) * image_height
+                        bx, by = box_xy[g_h, g_w, anchor]
+                        bh, bw = box_wh[g_h, g_w, anchor] * self.anchors[anchor] / \
+                            np.array([image_width, image_height])
+                        cx = (g_w + bx) / grid_width
+                        cy = (g_h + by) / grid_height
+                        x1 = (cx - bw / 2) * image_width
+                        y1 = (cy - bh / 2) * image_height
+                        x2 = (cx + bw / 2) * image_width
+                        y2 = (cy + bh / 2) * image_height
                         boxes.append([x1, y1, x2, y2])
-        return boxes, box_confidences, box_class_probs
+        return np.array(boxes), box_confidences, box_class_probs
