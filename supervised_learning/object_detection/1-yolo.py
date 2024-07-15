@@ -27,25 +27,29 @@ class Yolo:
         boxes = []
         box_confidences = []
         box_class_probs = []
-        for output in outputs:
-            grid_height, grid_width, anchor_boxes, value = output.shape
+        for i, output in enumerate(outputs):
+            grid_height, grid_width, anchor_boxes = output.shape[:3]
+
             box_confidence = tf.sigmoid(output[..., 4:5])
             box_class_prob = tf.sigmoid(output[..., 5:])
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
+
             box_xy = tf.sigmoid(output[..., :2])
-            box_wh = tf.exp(output[..., 2:4])
+            box_wh = np.exp(output[..., 2:4]) * self.anchors[i]
             for g_h in range(grid_height):
                 for g_w in range(grid_width):
                     for anchor in range(anchor_boxes):
-                        bx, by = box_xy[g_h, g_w, anchor]
-                        bh, bw = box_wh[g_h, g_w, anchor] * self.anchors[anchor] / \
-                            np.array([image_width, image_height])
-                        cx = (g_w + bx) / grid_width
-                        cy = (g_h + by) / grid_height
-                        x1 = (cx - bw / 2) * image_width
-                        y1 = (cy - bh / 2) * image_height
-                        x2 = (cx + bw / 2) * image_width
-                        y2 = (cy + bh / 2) * image_height
+                        bx = (box_xy[g_h, g_w, anchor, 0] + g_w) / grid_width
+                        by = (box_xy[g_h, g_w, anchor, 1] + g_h) / grid_height
+                        bw = box_wh[g_h, g_w, anchor, 0] / \
+                            self.model.input.shape[1]
+                        bh = box_wh[g_h, g_w, anchor, 1] / \
+                            self.model.input.shape[2]
+                        x1 = (bx - bw / 2) * image_width
+                        y1 = (by - bh / 2) * image_height
+                        x2 = (bx + bw / 2) * image_width
+                        y2 = (by + bh / 2) * image_height
                         boxes.append([x1, y1, x2, y2])
-        return np.array(boxes), box_confidences, box_class_probs
+        return np.array(boxes), np.concatenate(
+            box_confidences, axis=0), np.concatenate(box_class_probs, axis=0)
