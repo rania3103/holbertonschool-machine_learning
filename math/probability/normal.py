@@ -37,3 +37,11 @@ class Normal:
         norm_factor = 1 / (self.stddev * (2 * pi) ** 0.5)
         expo_factor = -((x - self.mean) ** 2 / (2 * self.stddev ** 2))
         return norm_factor * (e ** expo_factor)
+
+    def cdf(self, x):
+        """Calculates the value of the CDF for a given x-value"""
+        pi = 3.1415926536
+        val = (x - self.mean) / ((2 ** 0.5) * self.stddev)
+        error_func = (((4 / pi) ** 0.5) * (val - (val ** 3) / 3 +
+                      (val ** 5) / 10 - (val ** 7) / 42 + (val ** 9) / 216))
+        return 0.5 * (1 + error_func)
