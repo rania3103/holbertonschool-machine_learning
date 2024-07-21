@@ -4,12 +4,13 @@
 
 def determinant(matrix):
     """Returns: the determinant of matrix"""
-    if isinstance(
-        matrix,
-        list) and not any(
+
+    if not isinstance(matrix, list) or not all(
         isinstance(
             row,
             list) for row in matrix):
+        raise TypeError('matrix must be a list of lists')
+    if matrix == []:
         raise TypeError('matrix must be a list of lists')
     n_rows = len(matrix)
     if n_rows == 1 and len(matrix[0]) == 0:
