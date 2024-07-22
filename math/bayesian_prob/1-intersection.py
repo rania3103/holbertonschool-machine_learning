@@ -3,9 +3,6 @@
 this data with the various hypothetical probabilities:"""
 import numpy as np
 
-likelihood = __import__('0-likelihood').likelihood
-
-
 def intersection(x, n, P, Pr):
     """Returns: a 1D numpy.ndarray containing the intersection
     of obtaining x and n with each probability in P, respectively"""
@@ -24,5 +21,6 @@ def intersection(x, n, P, Pr):
         raise ValueError('All values in {P} must be in the range [0, 1]')
     if not np.isclose(np.sum(Pr), 1):
         raise ValueError('Pr must sum to 1')
+    likelihood = __import__('0-likelihood').likelihood
     likeli = likelihood(x, n, P)
     return likeli * Pr
