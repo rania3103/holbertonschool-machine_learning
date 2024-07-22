@@ -26,3 +26,16 @@ class Binomial:
             self.n = n
             self.p = float(mean / n)
             self.data = data
+
+    def pmf(self, k):
+        """Calculates the value of the PMF for a
+        given number of “successes”"""
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0 or k > self.n:
+            return 0
+        else:
+            bin_coef = 1
+            for i in range(1, k + 1):
+                bin_coef *= (self.n - i + 1) / i
+            return bin_coef * (self.p ** k) * ((1 - self.p) ** (self.n - k))
