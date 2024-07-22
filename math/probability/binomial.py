@@ -39,3 +39,16 @@ class Binomial:
             for i in range(1, k + 1):
                 bin_coef *= (self.n - i + 1) / i
             return bin_coef * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+
+    def cdf(self, k):
+        """Calculates the value of the CDF
+        for a given number of “successes”"""
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0 or k > self.n:
+            return 0
+        else:
+            sum = 0
+            for i in range(k + 1):
+                sum += self.pmf(i)
+            return sum
