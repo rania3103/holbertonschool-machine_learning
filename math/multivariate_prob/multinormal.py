@@ -32,7 +32,7 @@ class MultiNormal:
         """calculates the PDF at a data point"""
         if not isinstance(x, np.ndarray):
             raise TypeError('x must be a numpy.ndarray')
-        if x.shape[1] != 1:
+        if x.shape != (d, 1):
             raise ValueError('x must have the shape ({d}, 1)')
         d = self.mean.shape[0]
         cov_inv = np.linalg.inv(self.cov)
