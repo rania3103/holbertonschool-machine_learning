@@ -27,3 +27,17 @@ class MultiNormal:
         if n < 2:
             raise ValueError('data must contain multiple data points')
         self.mean, self.cov = mean_cov(data)
+
+    def pdf(self, x):
+        """calculates the PDF at a data point"""
+        if not isinstance(x, np.ndarray):
+            raise TypeError('x must be a numpy.ndarray')
+        if x.shape[1] != 1:
+            raise ValueError('x must have the shape ({d}, 1)')
+        d = self.mean.shape[0]
+        cov_inv = np.linalg.inv(self.cov)
+        cov_det = np.linalg.det(self.cov)
+        exp_term = -0.5 * \
+            np.dot(np.dot((x - self.mean).T, cov_inv), (x - self.mean))
+        norm_term = 1 / (((2 * np.pi) ** (d / 2)) * (cov_det ** 0.5))
+        return float(np.exp(exp_term) * norm_term)
