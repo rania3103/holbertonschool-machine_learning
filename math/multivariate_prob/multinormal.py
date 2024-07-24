@@ -34,7 +34,7 @@ class MultiNormal:
             raise TypeError('x must be a numpy.ndarray')
         d = self.mean.shape[0]
         if x.shape != (d, 1):
-            raise ValueError('x must have the shape ({d}, 1)')
+            raise ValueError(f'x must have the shape ({d}, 1)')
         cov_inv = np.linalg.inv(self.cov)
         cov_det = np.linalg.det(self.cov)
         exp_term = -0.5 * \
