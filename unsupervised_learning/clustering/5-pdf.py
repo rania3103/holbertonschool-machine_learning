@@ -8,10 +8,10 @@ def pdf(X, m, S):
     """Returns: P(is a numpy.ndarray of shape (n,)
     containing the PDF values for each data point),
     or None on failure"""
+    if not isinstance(X, np.ndarray):
+        return None
     n, d = X.shape
     if not isinstance(
-            X,
-            np.ndarray) or not isinstance(
             m,
             np.ndarray) or not isinstance(
                 S,
