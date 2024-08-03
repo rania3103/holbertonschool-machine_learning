@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""a function that calculates the total intra-cluster variance for a data set"""
+"""function that calculates the total intra-cluster variance for a data set"""
 import numpy as np
 
 
