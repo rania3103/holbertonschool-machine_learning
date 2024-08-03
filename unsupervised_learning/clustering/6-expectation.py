@@ -11,9 +11,9 @@ def expectation(X, pi, m, S):
         n, d = X.shape
         k = len(pi)
         g = np.zeros((k, n))
-        g_sum = np.sum(g, axis=0)
         for i in range(k):
             g[i] = pi[i] * pdf(X, m[i], S[i])
+        g_sum = np.sum(g, axis=0)
         g /= g_sum
         tot_l = np.sum(np.log(g_sum))
         return g, tot_l
