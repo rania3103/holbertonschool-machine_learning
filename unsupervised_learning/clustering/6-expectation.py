@@ -9,6 +9,14 @@ def expectation(X, pi, m, S):
     """calculates the expectation step in the EM algorithm for a GMM"""
     try:
         n, d = X.shape
+        if not isinstance(
+                pi,
+                np.ndarray) or pi.ndim != 1 or np.any(
+                pi < 0) or np.any(
+                pi > 0) or not np.isclose(
+                    np.sum(pi),
+                1):
+            return None
         k = len(pi)
         g = np.zeros((k, n))
         for i in range(k):
