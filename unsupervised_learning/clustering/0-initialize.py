@@ -9,6 +9,8 @@ def initialize(X, k):
     or None on failure"""
     try:
         n, d = X.shape
+        if not isinstance(k, int) or k < 0:
+            return None
         centroids = np.random.uniform(
             low=np.min(
                 X, axis=0), high=np.max(
