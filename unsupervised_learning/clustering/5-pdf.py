@@ -9,6 +9,16 @@ def pdf(X, m, S):
     containing the PDF values for each data point),
     or None on failure"""
     n, d = X.shape
+    if not isinstance(
+            X,
+            np.ndarray) or not isinstance(
+            m,
+            np.ndarray) or not isinstance(
+                S,
+            np.ndarray) or m.shape[0] != d or S.shape[0] != d\
+            or S.shape[1] != d:
+        return None
+
     det = np.linalg.det(S)
     norm_fact = 1 / ((2 * np.pi) ** (d / 2) * np.sqrt(det))
     diff_X_m = X - m
