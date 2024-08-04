@@ -39,6 +39,8 @@ def kmeans(X, k, iterations=1000):
                         np.min(
                             X, axis=0), np.max(
                             X, axis=0), d)
+            if np.all(C == new_C):
+                break
             C = new_C
         return C, clss
     except BaseException:
