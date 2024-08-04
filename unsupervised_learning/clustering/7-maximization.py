@@ -7,9 +7,11 @@ import numpy as np
 def maximization(X, g):
     """Returns: pi, m, S, or None, None, None on failure"""
     try:
-        n, d = X.shape
+        if not isinstance(X, np.ndarray) or X.ndim != 2:
+            return None, None, None
         if not isinstance(g, np.ndarray) or g.ndim != 2 or g.shape[1] != n:
             return None, None, None
+        n, d = X.shape
         k, n = g.shape
         pi = np.sum(g, axis=1) / n
         m = np.dot(g, X) / np.sum(g, axis=1)[:, None]
