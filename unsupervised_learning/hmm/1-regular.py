@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""that determines the steady state probabilities of a regular markov chain"""
+"""a function that determines the steady state probabilities of a regular markov chain"""
 import numpy as np
 
 
