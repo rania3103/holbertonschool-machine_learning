@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""a function that """
+"""a function that  performs the backward
+algorithm for a hidden markov model"""
 import numpy as np
 
 
