@@ -8,13 +8,13 @@ def bag_of_words(sentences, vocab=None):
     tokens = [sentence.lower().split() for sentence in sentences]
     if vocab is None:
         vocab = []
-        for sentnece in tokens:
-            for word in sentnece:
+        for sentence in tokens:
+            for word in sentence:
                 vocab.append(word)
-    vocab = sorted(set(vocab))
+        vocab = sorted(set(vocab))
     embeddings = np.zeros((len(sentences), len(vocab)))
     for i, sentence in enumerate(tokens):
         for word in sentence:
-            if word in vocab:
+            if word in set(vocab):
                 embeddings[i][vocab.index(word)] += 1
     return embeddings, vocab
