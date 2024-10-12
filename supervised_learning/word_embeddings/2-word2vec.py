@@ -6,10 +6,7 @@ import gensim
 def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
                    negative=5, cbow=True, epochs=5, seed=0, workers=1):
     """Returns: the trained model"""
-    if cbow:
-        sg = 1
-    else:
-        sg = 0
+    sg = 1 if not cbow else 0
     model = gensim.models.Word2Vec(
         sentences,
         vector_size=vector_size,
