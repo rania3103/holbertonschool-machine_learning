@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """a function that calculates the unigram BLEU score for a sentence"""
 import numpy as np
-import math
 
 
 def uni_bleu(references, sentence):
