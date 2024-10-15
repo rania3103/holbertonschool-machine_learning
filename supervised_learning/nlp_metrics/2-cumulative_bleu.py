@@ -20,6 +20,8 @@ def cumulative_bleu(references, sentence, n):
     for i in range(1, n + 1):
         short_ref_len = len(min(references, key=len))
         len_sentence = len(sentence)
+        if len_sentence == 0:
+            return 0
         bp = min(1, np.exp(1 - short_ref_len / len_sentence))
 
         sentence_n_grams = []
