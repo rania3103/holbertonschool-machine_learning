@@ -38,6 +38,8 @@ def train(
     with tf.Session() as sess:
         sess.run(init)
         for i in range(iterations + 1):
+            if i < iterations:
+                sess.run(train_op, feed_dict={x: X_train, y: Y_train})
             train_loss, train_accuracy = sess.run(
                 [loss, accuracy], feed_dict={x: X_train, y: Y_train})
             valid_loss, valid_accuracy = sess.run(
@@ -48,6 +50,5 @@ def train(
                 print(f"\tTraining Accuracy: {train_accuracy}")
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
-            if i < iterations:
-                sess.run(train_op, feed_dict={x: X_train, y: Y_train})
+
         return saver.save(sess, save_path)
