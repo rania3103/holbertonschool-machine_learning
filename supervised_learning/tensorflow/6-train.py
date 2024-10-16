@@ -20,9 +20,9 @@ def train(
         iterations,
         save_path="/tmp/model.ckpt"):
     """ Returns: the path where the model was saved"""
-    x, y = create_placeholders(X_train, Y_train)
-    y_hat = forward_prop(X_train, layer_sizes, activations)
-    loss = calculate_loss(Y_train, y_hat)
+    x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
+    y_hat = forward_prop(x, layer_sizes, activations)
+    loss = calculate_loss(y, y_hat)
     accuracy = calculate_accuracy(y, y_hat)
     train_op = create_train_op(loss, alpha)
 
