@@ -16,7 +16,8 @@ def dropout_forward_prop(X, weights, L, keep_prob):
             A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
         else:
             A = np.tanh(Z)
-            dropout_mask = np.random.rand(A.shape[0], A.shape[1]) < keep_prob
+            dropout_mask = np.random.rand(
+                A.shape[0], A.shape[1] < keep_prob).astype(int)
             A *= dropout_mask
             A /= keep_prob
             cache['D' + str(lay)] = dropout_mask
