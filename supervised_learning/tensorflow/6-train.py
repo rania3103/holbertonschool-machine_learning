@@ -49,5 +49,6 @@ def train(
                 print(f"\tTraining Accuracy: {train_accuracy}")
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
-        save_path = saver.save(sess, save_path)
-        return save_path
+            if i < iterations:
+                sess.run(train_op, feed_dict={x: X_train, y: Y_train})
+        return saver.save(sess, save_path)
