@@ -7,7 +7,7 @@ calculate_loss = __import__('4-calculate_loss').calculate_loss
 create_placeholders = __import__('0-create_placeholders').create_placeholders
 create_train_op = __import__('5-create_train_op').create_train_op
 forward_prop = __import__('2-forward_prop').forward_prop
-
+tf.disable_eager_execution()
 
 def train(
         X_train,
@@ -48,5 +48,5 @@ def train(
                 print(f"\tTraining Accuracy: {train_accuracy}")
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
-            save_path = saver.save(sess, save_path)
+        save_path = saver.save(sess, save_path)
     return save_path
