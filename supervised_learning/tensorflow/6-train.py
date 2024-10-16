@@ -31,22 +31,22 @@ def train(
     tf.add_to_collection("y_hat", y_hat)
     tf.add_to_collection("loss", loss)
     tf.add_to_collection("accuracy", accuracy)
-    tf.add_to_collection("train_op", train)
+    tf.add_to_collection("train_op", train_op)
     init = tf.global_variables_initializer()
-    saver = tf.train.saver()
+    saver = tf.train.Saver()
     with tf.Session() as sess:
         sess.run(init)
-    for i in range(iterations + 1):
-        sess.run(train_op, feed_dict={x: X_train, y: Y_train})
-        train_loss, train_accuracy = sess.run(
-            [loss, accuracy], feed_dict={x: X_train, y: Y_train})
-        valid_loss, valid_accuracy = sess.run(
-            [loss, accuracy], feed_dict={x: X_valid, y: Y_valid})
-        if i % 100 == 0 or i == iterations:
-            print(f"After {i} iterations:")
-            print(f"\tTraining Cost: {train_loss}")
-            print(f"\tTraining Accuracy: {train_accuracy}")
-            print(f"\tValidation Cost: {valid_loss}")
-            print(f"\tValidation Accuracy: {valid_accuracy}")
-        save_path = saver.save(sess, save_path)
+        for i in range(iterations + 1):
+            sess.run(train_op, feed_dict={x: X_train, y: Y_train})
+            train_loss, train_accuracy = sess.run(
+                [loss, accuracy], feed_dict={x: X_train, y: Y_train})
+            valid_loss, valid_accuracy = sess.run(
+                [loss, accuracy], feed_dict={x: X_valid, y: Y_valid})
+            if i % 100 == 0 or i == iterations:
+                print(f"After {i} iterations:")
+                print(f"\tTraining Cost: {train_loss}")
+                print(f"\tTraining Accuracy: {train_accuracy}")
+                print(f"\tValidation Cost: {valid_loss}")
+                print(f"\tValidation Accuracy: {valid_accuracy}")
+            save_path = saver.save(sess, save_path)
     return save_path
