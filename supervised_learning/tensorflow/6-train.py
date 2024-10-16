@@ -23,13 +23,13 @@ def train(
     tf.disable_eager_execution()
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_hat = forward_prop(x, layer_sizes, activations)
-    loss = calculate_loss(y, y_hat)
     accuracy = calculate_accuracy(y, y_hat)
+    loss = calculate_loss(y, y_hat)
     train_op = create_train_op(loss, alpha)
 
     tf.add_to_collection("x", x)
     tf.add_to_collection("y", y)
-    tf.add_to_collection("y_hat", y_hat)
+    tf.add_to_collection("y_pred", y_hat)
     tf.add_to_collection("loss", loss)
     tf.add_to_collection("accuracy", accuracy)
     tf.add_to_collection("train_op", train_op)
@@ -50,5 +50,4 @@ def train(
                 print(f"\tTraining Accuracy: {train_accuracy}")
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
-
         return saver.save(sess, save_path)
