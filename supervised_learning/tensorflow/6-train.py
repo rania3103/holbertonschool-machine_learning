@@ -7,7 +7,6 @@ calculate_loss = __import__('4-calculate_loss').calculate_loss
 create_placeholders = __import__('0-create_placeholders').create_placeholders
 create_train_op = __import__('5-create_train_op').create_train_op
 forward_prop = __import__('2-forward_prop').forward_prop
-tf.disable_eager_execution()
 
 
 def train(
@@ -21,6 +20,7 @@ def train(
         iterations,
         save_path="/tmp/model.ckpt"):
     """ Returns: the path where the model was saved"""
+    tf.disable_eager_execution()
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_hat = forward_prop(x, layer_sizes, activations)
     loss = calculate_loss(y, y_hat)
@@ -50,4 +50,4 @@ def train(
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
         save_path = saver.save(sess, save_path)
-    return save_path
+        return save_path
