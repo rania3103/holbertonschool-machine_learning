@@ -18,11 +18,10 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pw = ((w_prev - 1) * sw + kw - w_new) // 2
     out_h = (h_prev + 2 * ph - kh) // sh + 1
     out_w = (w_prev + 2 * pw - kw) // sw + 1
-    pad_A_prev = np.pad(
-        A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
+    pad_A_prev = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)))
     dA_prev = np.zeros(pad_A_prev.shape)
     dW = np.zeros(W.shape)
-    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
+    db = np.zeros(b.shape)
     for i in range(m):
         for h in range(h_new):
             for w in range(w_new):
@@ -35,8 +34,5 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     dA_prev[i, h * sh:h * sh + kh, w * sw:w * sw + kw, :] += \
                         W[:, :, :, c] * dZ[i, h, w, c]
     if padding == 'same':
-        if ph > 0:
-            dA_prev = dA_prev[:, ph:-ph, :, :]
-        if pw > 0:
-            dA_prev = dA_prev[:, :, pw:-pw, :]
+        dA_prev = dA_prev[:, ph:-ph, pw:-pw, :]
     return dA_prev, dW, db
