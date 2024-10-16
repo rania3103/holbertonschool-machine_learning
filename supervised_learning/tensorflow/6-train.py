@@ -38,7 +38,6 @@ def train(
     with tf.Session() as sess:
         sess.run(init)
         for i in range(iterations + 1):
-            sess.run(train_op, feed_dict={x: X_train, y: Y_train})
             train_loss, train_accuracy = sess.run(
                 [loss, accuracy], feed_dict={x: X_train, y: Y_train})
             valid_loss, valid_accuracy = sess.run(
