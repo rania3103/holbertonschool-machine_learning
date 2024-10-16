@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
+"""code to plot a stacked bar graph"""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def bars():
+    """
+    fruit is a matrix representing the number of fruit various people possess
+    The bars should represent the number of fruit each person possesses
+    The y-axis should range from 0 to 80 with ticks every 10 units
+    """
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
