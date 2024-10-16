@@ -20,7 +20,6 @@ def train(
         iterations,
         save_path="/tmp/model.ckpt"):
     """ Returns: the path where the model was saved"""
-    tf.disable_eager_execution()
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_pred = forward_prop(x, layer_sizes, activations)
     accuracy = calculate_accuracy(y, y_pred)
@@ -50,4 +49,5 @@ def train(
                 print(f"\tTraining Accuracy: {train_accuracy}")
                 print(f"\tValidation Cost: {valid_loss}")
                 print(f"\tValidation Accuracy: {valid_accuracy}")
-        return saver.save(sess, save_path)
+        save_path = saver.save(sess, save_path)
+    return save_path
