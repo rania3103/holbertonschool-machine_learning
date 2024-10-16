@@ -14,7 +14,6 @@ def dropout_forward_prop(X, weights, L, keep_prob):
         if lay == L:
             exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
             A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
-            A
         else:
             A = np.tanh(Z)
             dropout_mask = np.random.rand(A.shape[0], A.shape[1]) < keep_prob
