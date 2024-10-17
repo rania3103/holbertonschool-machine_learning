@@ -82,35 +82,35 @@ class Simple_GAN(keras.Model):
 
             # compute the loss for the discriminator in a tape watching the
             # discriminator's weights
-            with tf.GradientTape() as tape:
-                # get a real sample
-                real_samples = self.get_real_sample()
+            # get a real sample
+            real_samples = self.get_real_sample()
             # get a fake sample
-                fake_samples = self.get_fake_sample(training=True)
+            fake_samples = self.get_fake_sample(training=True)
             # compute the loss discr_loss of the discriminator on real and fake
             # samples
+            with tf.GradientTape() as tape:
                 discr_loss_real = self.discriminator(
-                    real_samples, training=True)
+                    real_samples)
                 discr_loss_fake = self.discriminator(
-                    fake_samples, training=True)
+                    fake_samples)
                 discr_loss = self.discriminator.loss(
                     discr_loss_real, discr_loss_fake)
             # apply gradient descent once to the discriminator
             discr_grad = tape.gradient(
-                discr_loss, self.discriminator.trainable_variables)
+                    discr_loss, self.discriminator.trainable_variables)
             # compute the loss for the generator in a tape watching the
             # generator's weights
             self.discriminator.optimizer.apply_gradients(
                 zip(discr_grad, self.discriminator.trainable_variables))
-            with tf.GradientTape() as tape:
-                # get a fake
-                fake_samples = self.get_fake_sample(training=True)
-                fake_output = self.discriminator(fake_samples, training=False)
+        with tf.GradientTape() as tape:
+            # get a fake
+            fake_samples = self.get_fake_sample(training=True)
+            fake_output = self.discriminator(fake_samples, training=True)
             # compute the loss gen_loss of the generator on this sample
-                gen_loss = self.generator.loss(fake_output)
+            gen_loss = self.generator.loss(fake_output)
             # apply gradient descent to the discriminator
-            discr_grad_desc = tape.gradient(
-                gen_loss, self.generator.trainable_variables)
-            self.generator.optimizer.apply_gradients(
-                zip(discr_grad_desc, self.generator.trainable_variables))
-            return {"discr_loss": discr_loss, "gen_loss": gen_loss}
+        discr_grad_desc = tape.gradient(
+            gen_loss, self.generator.trainable_variables)
+        self.generator.optimizer.apply_gradients(
+            zip(discr_grad_desc, self.generator.trainable_variables))
+        return {"discr_loss": discr_loss, "gen_loss": gen_loss}
