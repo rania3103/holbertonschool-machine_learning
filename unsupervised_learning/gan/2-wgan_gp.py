@@ -2,8 +2,6 @@
 """Wasserstein GANs with gradient penalty"""
 import tensorflow as tf
 from tensorflow import keras
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 class WGAN_GP(keras.Model):
@@ -143,17 +141,17 @@ class WGAN_GP(keras.Model):
                 zip(discr_grad, self.discriminator.trainable_variables))
             # compute the loss for the generator in a tape watching the
             # generator's weights
-            with tf.GradientTape() as tape:
-                # get a fake sample
-                fake_samples = self.get_fake_sample(training=True)
-                fake_output = self.discriminator(fake_samples, training=False)
-                # compute the loss gen_loss of the generator on this sample
-                gen_loss = self.generator.loss(fake_output)
-            # apply gradient descent to the discriminator (gp is the gradient
-            # penalty)
-            discr_grad_desc = tape.gradient(
-                gen_loss, self.generator.trainable_variables)
-            self.generator.optimizer.apply_gradients(
-                zip(discr_grad_desc, self.generator.trainable_variables))
+        with tf.GradientTape() as tape:
+            # get a fake sample
+            fake_samples = self.get_fake_sample(training=True)
+            fake_output = self.discriminator(fake_samples, training=False)
+            # compute the loss gen_loss of the generator on this sample
+            gen_loss = self.generator.loss(fake_output)
+        # apply gradient descent to the discriminator (gp is the gradient
+        # penalty)
+        discr_grad_desc = tape.gradient(
+            gen_loss, self.generator.trainable_variables)
+        self.generator.optimizer.apply_gradients(
+            zip(discr_grad_desc, self.generator.trainable_variables))
 
-            return {"discr_loss": discr_loss, "gen_loss": gen_loss, "gp": gp}
+        return {"discr_loss": discr_loss, "gen_loss": gen_loss, "gp": gp}
