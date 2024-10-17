@@ -138,7 +138,7 @@ class WGAN_GP(keras.Model):
             # apply gradient descent with respect to new_discr_loss once to the
             # discriminator
             discr_grad = tape.gradient(
-                discr_loss, self.discriminator.trainable_variables)
+                new_discr_loss, self.discriminator.trainable_variables)
             self.discriminator.optimizer.apply_gradients(
                 zip(discr_grad, self.discriminator.trainable_variables))
             # compute the loss for the generator in a tape watching the
