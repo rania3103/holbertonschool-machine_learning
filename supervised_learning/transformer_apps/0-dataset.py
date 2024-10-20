@@ -22,17 +22,8 @@ class Dataset:
 
     def tokenize_dataset(self, data):
         """creates sub-word tokenizers for the dataset"""
-        tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
+        tokenizer_pt = transformers.BertTokenizer.from_pretrained(
             "neuralmind/bert-base-portuguese-cased")
-        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
+        tokenizer_en = transformers.BertTokenizer.from_pretrained(
             "bert-base-uncased")
-        pt_sentences = []
-        en_sentences = []
-        for pt, en in data:
-            pt_sentences.append(pt.numpy().decode('utf-8'))
-            en_sentences.append(en.numpy().decode('utf-8'))
-        tokenizer_pt.train_new_from_iterator(
-            iter(pt_sentences), vocab_size=2**13)
-        tokenizer_en.train_new_from_iterator(
-            iter(en_sentences), vocab_size=2**13)
         return tokenizer_pt, tokenizer_en
