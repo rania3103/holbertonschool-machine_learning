@@ -28,8 +28,6 @@ class Dataset:
             "bert-base-uncased")
         pt_sentences = [pt.numpy().decode('utf-8') for pt, en in data]
         en_sentences = [en.numpy().decode('utf-8') for pt, en in data]
-        tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-            pt_sentences, target_vocab_size=2**13)
-        tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-            en_sentences, target_vocab_size=2**13)
+        tokenizer_pt.train_from_iterator(pt_sentences, vocab_size=2**13)
+        tokenizer_en.train_from_iterator(en_sentences, vocab_size=2**13)
         return tokenizer_pt, tokenizer_en
