@@ -22,8 +22,8 @@ class Dataset:
 
     def tokenize_dataset(self, data):
         """creates sub-word tokenizers for the dataset"""
-        pt_sentences = [pt.numpy() for pt, en in tfds.as_numpy(data)]
-        en_sentences = [en.numpy() for pt, en in tfds.as_numpy(data)]
+        pt_sentences = (pt.numpy() for pt, en in data)
+        en_sentences = (en.numpy() for pt, en in data)
         tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
             pt_sentences, target_vocab_size=2**15)
         tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
