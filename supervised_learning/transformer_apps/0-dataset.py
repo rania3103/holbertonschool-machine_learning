@@ -2,7 +2,6 @@
 """a class Dataset that loads and preps a dataset for machine translation"""
 import transformers
 import tensorflow_datasets as tfds
-import tensorflow as tf
 
 
 class Dataset:
