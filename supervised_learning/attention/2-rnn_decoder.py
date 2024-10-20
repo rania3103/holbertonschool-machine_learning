@@ -3,7 +3,7 @@
 tensorflow.keras.layers.Layer to decode
 for machine translation"""
 import tensorflow as tf
-selfAttention = __import__('1-self_attention').SelfAttention
+SelfAttention = __import__('1-self_attention').SelfAttention
 
 
 class RNNDecoder(tf.keras.layers.Layer):
@@ -23,7 +23,7 @@ class RNNDecoder(tf.keras.layers.Layer):
     def call(self, x, s_prev, hidden_states):
         """Returns: y, s"""
         units = s_prev.shape[1]
-        attention = selfAttention(units)
+        attention = SelfAttention(units)
         context, weights = attention(s_prev, hidden_states)
         embed = self.embedding(x)
         concat = tf.concat([tf.expand_dims(context, 1), embed], axis=-1)
