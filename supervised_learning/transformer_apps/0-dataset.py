@@ -26,4 +26,7 @@ class Dataset:
             "neuralmind/bert-base-portuguese-cased")
         tokenizer_en = transformers.BertTokenizer.from_pretrained(
             "bert-base-uncased")
+        vocab_size = 2**13
+        tokenizer_pt = min(tokenizer_pt.vocab_size, vocab_size)
+        tokenizer_en = min(tokenizer_en.vocab_size, vocab_size)
         return tokenizer_pt, tokenizer_en
