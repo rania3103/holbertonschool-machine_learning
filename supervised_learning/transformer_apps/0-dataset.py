@@ -31,6 +31,8 @@ class Dataset:
         for pt, en in data:
             pt_sentences.append(pt.numpy().decode('utf-8'))
             en_sentences.append(en.numpy().decode('utf-8'))
-        tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13)
-        tokenizer_en.train_new_from_iterator(en_sentences, vocab_size=2**13)
+        tokenizer_pt.train_new_from_iterator(
+            iter(pt_sentences), vocab_size=2**13)
+        tokenizer_en.train_new_from_iterator(
+            iter(en_sentences), vocab_size=2**13)
         return tokenizer_pt, tokenizer_en
