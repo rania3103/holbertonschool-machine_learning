@@ -15,7 +15,7 @@ class Dataset:
             as_supervised=True)
         self.data_valid = tfds.load(
             'ted_hrlr_translate/pt_to_en',
-            split="validate",
+            split="validation",
             as_supervised=True)
         self.tokenizer_pt = self.tokenize_dataset(self.data_train)
         self.tokenizer_en = self.tokenize_dataset(self.data_train)
@@ -26,15 +26,10 @@ class Dataset:
             "neuralmind/bert-base-portuguese-cased")
         tokenizer_en = transformers.AutoTokenizer.from_pretrained(
             "bert-base-uncased")
-        pt_tokenized = []
-        en_tokenized = []
-        for pt, en in data:
-            pt_tokenized.append(
-                tokenizer_pt.encode(
-                    pt.numpy().decode('utf-8')))
-            en_tokenized.append(
-                tokenizer_en.encode(
-                    en.numpy().decode('utf-8')))
-        pt_tensor = tf.ragged.constant(pt_tokenized, dtype=tf.int32)
-        en_tensor = tf.ragged.constant(en_tokenized, dtype=tf.int32)
-        return pt_tensor, en_tensor
+        pt_sentences = [pt.numpy().decode('utf-8') for pt, en in data]
+        en_sentences = [en.numpy().decode('utf-8') for pt, en in data]
+        tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
+            pt_sentences, target_vocab_size=2**13)
+        tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
+            en_sentences, target_vocab_size=2**13)
+        return tokenizer_pt, tokenizer_en
