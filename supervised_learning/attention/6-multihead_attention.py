@@ -23,8 +23,8 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         """Returns: output, weights"""
         batch = tf.shape(Q)[0]
         Q = self.Wq(Q)
-        K = self.Wq(K)
-        V = self.Wq(V)
+        K = self.Wk(K)
+        V = self.Wv(V)
         Q = tf.reshape(Q, (batch, -1, self.h, self.depth))
         K = tf.reshape(K, (batch, -1, self.h, self.depth))
         V = tf.reshape(V, (batch, -1, self.h, self.depth))
