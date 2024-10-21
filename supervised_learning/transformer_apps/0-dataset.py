@@ -29,12 +29,12 @@ class Dataset:
 
         def iterate_pt():
             """generate potuguese sentences one at a time from the dataset"""
-            for pt, en in data:
+            for pt, _ in data:
                 yield pt.numpy().decode('utf-8')
 
         def iterate_en():
             """generate english sentences one at a time from the dataset"""
-            for pt, en in data:
+            for _, en in data:
                 yield en.numpy().decode('utf-8')
 
         tokenizer_pt = tokenizer_pt.train_new_from_iterator(
