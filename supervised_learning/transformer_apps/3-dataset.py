@@ -83,5 +83,5 @@ class Dataset:
         dataset = dataset.padded_batch(
             self.batch_size, padded_shapes=(
                 [None], [None]))
-        dataset = dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
+        dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
         return dataset
