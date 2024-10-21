@@ -80,8 +80,12 @@ class Dataset:
         if training:
             dataset = dataset.cache()
             dataset = dataset.shuffle(buffer_size=20000)
-        dataset = dataset.padded_batch(
-            self.batch_size, padded_shapes=(
-                [None], [None]))
-        dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
+            dataset = dataset.padded_batch(
+                self.batch_size, padded_shapes=(
+                    [None], [None]))
+            dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
+        else:
+            dataset = dataset.padded_batch(
+                self.batch_size, padded_shapes=(
+                    [None], [None]))
         return dataset
