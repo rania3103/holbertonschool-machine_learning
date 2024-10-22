@@ -10,6 +10,7 @@ def play(env, Q, max_steps=100):
     state = env.reset()[0]
     total_rewards = 0
     rendered_outputs = []
+    rendered_outputs.append(env.render())
     for step in range(max_steps):
         action = np.argmax(Q[state])
         next_state, reward, done, truncated, info = env.step(action)
@@ -18,5 +19,4 @@ def play(env, Q, max_steps=100):
         if done:
             break
         state = next_state
-    rendered_outputs.append(env.render())
     return total_rewards, rendered_outputs
