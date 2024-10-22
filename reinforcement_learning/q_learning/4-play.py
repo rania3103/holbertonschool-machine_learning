@@ -7,7 +7,7 @@ def play(env, Q, max_steps=100):
     """Returns: The total rewards for the episode and
     a list of rendered outputs representing
     the board state at each step."""
-    state = env.reset()[0]
+    state, _ = env.reset()
     total_rewards = 0
     rendered_outputs = []
     rendered_outputs.append(env.render())
