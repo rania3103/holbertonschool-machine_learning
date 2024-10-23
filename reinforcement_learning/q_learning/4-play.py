@@ -11,7 +11,6 @@ def play(env, Q, max_steps=100):
     total_rewards = 0
     rendered_outputs = []
     rendered_outputs.append(env.render())
-    done = False
     for step in range(max_steps):
         action = np.argmax(Q[state, :])
         next_state, reward, done, truncated, info = env.step(action)
