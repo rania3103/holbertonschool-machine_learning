@@ -26,15 +26,15 @@ def sarsa_lambtha(
         action = eps_greedy(state, Q, epsilon)
         eligibility_trace = np.zeros_like(Q)
         for step in range(max_steps):
-            next_state, reward, done, _, _ = env.step(action)
+            next_state, reward, terminated, truncated, _ = env.step(action)
             next_action = eps_greedy(next_state, Q, epsilon)
             td_error = reward + gamma * \
                 Q[next_state, next_action] - Q[state, action]
             eligibility_trace[state, action] += 1
             Q += alpha * td_error * eligibility_trace
             eligibility_trace *= gamma * lambtha
-            state, action = next_state, next_action
-            if done:
+            if terminated or truncated:
                 break
+            state, action = next_state, next_action
         epsilon = max(min_epsilon, epsilon * np.exp(-epsilon_decay * ep))
     return Q
