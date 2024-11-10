@@ -15,20 +15,19 @@ def sarsa_lambtha(
         min_epsilon=0.1,
         epsilon_decay=0.05):
     """Returns: Q, the updated Q table"""
-    n_actions = Q.shape[1]
+    def eps_greedy(state, Q, epsilon):
+        """selects action using epsilon greedy policy"""
+        if np.random.rand() < epsilon:
+            return env.action_space.sample()
+        else:
+            return np.argmax(Q[state])
     for ep in range(episodes):
         state, _ = env.reset()
-        if np.random.uniform(0, 1) < epsilon:
-            action = np.random.randint(n_actions)
-        else:
-            action = np.argmax(Q[state])
+        action = eps_greedy(state, Q, epsilon)
         eligibility_trace = np.zeros_like(Q)
         for step in range(max_steps):
             next_state, reward, done, _, _ = env.step(action)
-            if np.random.uniform(0, 1) < epsilon:
-                next_action = np.random.randint(n_actions)
-            else:
-                next_action = np.argmax(Q[next_state])
+            next_action = eps_greedy(next_state, Q, epsilon)
             td_error = reward + gamma * \
                 Q[next_state, next_action] - Q[state, action]
             eligibility_trace[state, action] += 1
@@ -37,5 +36,5 @@ def sarsa_lambtha(
             state, action = next_state, next_action
             if done:
                 break
-        epsilon = max(min_epsilon, epsilon * (1 - epsilon_decay))
+        epsilon = max(min_epsilon, epsilon * np.exp(-epsilon_decay * ep))
     return Q
