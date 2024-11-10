@@ -35,6 +35,7 @@ def sarsa_lambtha(
             eligibility_trace *= gamma * lambtha
             if terminated or truncated:
                 break
-            state, action = next_state, next_action
+            state = next_state
+            action = next_action
         epsilon = max(min_epsilon, epsilon * np.exp(-epsilon_decay * ep))
     return Q
