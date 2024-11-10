@@ -32,8 +32,8 @@ def sarsa_lambtha(
             td_error = reward + gamma * \
                 Q[next_state, next_action] - Q[state, action]
             eligibility_trace[state, action] += 1
-            Q += alpha * td_error * eligibility_trace
             eligibility_trace *= gamma * lambtha
+            Q += alpha * td_error * eligibility_trace
             if done:
                 break
             state = next_state
