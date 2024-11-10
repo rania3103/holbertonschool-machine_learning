@@ -17,10 +17,11 @@ def sarsa_lambtha(
     """Returns: Q, the updated Q table"""
     def eps_greedy(state, Q, epsilon):
         """selects action using epsilon greedy policy"""
-        if np.random.uniform() < epsilon:
-            return np.random.randint(Q.shape[1])
+        if np.random.uniform(0, 1) < epsilon:
+            return np.random.randint(0, Q.shape[1])
         else:
             return np.argmax(Q[state])
+    epsi = epsilon
     for ep in range(episodes):
         state, _ = env.reset()
         action = eps_greedy(state, Q, epsilon)
@@ -37,6 +38,6 @@ def sarsa_lambtha(
                 break
             state = next_state
             action = next_action
-        epsilon = min_epsilon + (epsilon - min_epsilon) * \
+        epsilon = min_epsilon + (epsi - min_epsilon) * \
             np.exp(-epsilon_decay * ep)
     return Q
