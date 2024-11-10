@@ -37,5 +37,5 @@ def sarsa_lambtha(
                 break
             state = next_state
             action = next_action
-        epsilon = max(min_epsilon, epsilon * np.exp(-epsilon_decay * ep))
+        epsilon = max(min_epsilon, epsilon - epsilon_decay)
     return Q
