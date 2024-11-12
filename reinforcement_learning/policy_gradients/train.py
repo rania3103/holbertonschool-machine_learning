@@ -4,12 +4,14 @@ import numpy as np
 policy_gradient = __import__('policy_gradient').policy_gradient
 
 
-def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
+def train(env, nb_episodes, alpha=0.000045, gamma=0.98, show_result=False):
     """returns all values of the score
     (sum of all rewards during one episode loop)"""
     weight = np.random.rand(env.observation_space.shape[0], env.action_space.n)
     scores = []
     for ep in range(nb_episodes):
+        if show_result and ep % 1000 == 0:
+            env.render()
         state, _ = env.reset()
         done = False
         ep_gradients = []
