@@ -13,5 +13,5 @@ index = __import__('10-index').index
 def concat(df1, df2):
     """Returns the concatenated pd.DataFrame"""
     df1, df2 = index(df1), index(df2)
-    df2 = df2.loc[df2.index <= 1417411920]
-    return pd.concat([df1, df2], keys=['bitstamp', 'coinbase'])
+    df2 = df2[df2.index <= 1417411920]
+    return pd.concat([df2, df1], keys=['bitstamp', 'coinbase'])
