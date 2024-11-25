@@ -9,13 +9,14 @@ if __name__ == '__main__':
     have the same date, use the first one in the API result"""
     url = "https://api.spacexdata.com/v4/launches/"
     resp = requests.get(url).json()
-    resp.sort(key=lambda launch: launch["date_unix"])
-    first_launch = resp[0]
+    for launch in resp:
+        if launch['name'] == "Galaxy 33 (15R) & 34 (12R)":
+            first_launch = launch
     launch_name = first_launch.get('name')
     launch_date_unix = first_launch.get('date_unix')
     rocket_id = first_launch.get('rocket')
     launchpad_id = first_launch.get('launchpad')
-    launch_date = datetime.fromtimestamp(launch_date_unix).isoformat()
+    launch_date = first_launch.get('date_local')
     rocket_resp = requests.get(
         f"https://api.spacexdata.com/v4/rockets/{rocket_id}").json()
     rocket_name = rocket_resp.get("name")
