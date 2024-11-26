@@ -1,3 +1,2 @@
 // a script that inserts a document in the collection school
-var res = db.school.insertOne({name:"Holberton school"});
-printjson(res);
+db.school.insert({name:"Holberton school"});
