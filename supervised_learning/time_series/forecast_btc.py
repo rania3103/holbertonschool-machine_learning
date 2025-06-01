@@ -1,73 +1,83 @@
 #!/usr/bin/env python3
-"""Bitcoin (BTC) became a trending topic after its price peaked in 2018.
-Many have sought to predict its value in order to accrue wealth.
-Let’s attempt to use our knowledge of RNNs to attempt just that."""
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+"""train an LSTM model to predict BTC close price 1 hour ahead using past 24 hours of data."""
+
 import numpy as np
+import pandas as pd
 import tensorflow as tf
+import os
+# disable GPU to avoid DNN init issuesAdd commentMore actions
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+seq_len = 1440
+batch_size = 8
+buff_size = 100
 # load data
-df = pd.read_csv("combined_scaled_data.csv")
-# features
-X = df.drop(columns=['Close']).values
-# target
-y = df['Close'].values
-# split data
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42)
-# scale data
-scaler = MinMaxScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-# fit and transform target
-y_train_scaled = scaler.fit_transform(y_train.reshape(-1, 1)).flatten()
-y_test_scaled = scaler.transform(y_test.reshape(-1, 1)).flatten()
-# make sequences
+df = pd.read_csv('combined_preprocessed_data.csv')
+# features & target
+X_cols = ['Open', 'High', 'Low', 'Close', 'Volume_(BTC)', 'Volume_(Currency)']
+y_col = 'Close'
+X = df[X_cols].values
+y = df[y_col].values
 
 
-def create_sequences(X, y, time_steps):
-    sequences = []
-    targets = []
-    for i in range(len(X) - time_steps):
-        sequences.append(X[i:i + time_steps])
-        targets.append(y[i + time_steps])
-    return np.array(sequences), np.array(targets)
+def sequence_generator(data, targets, seq_length):
+    data = tf.convert_to_tensor(data, dtype=tf.float32)
+    targets = tf.convert_to_tensor(targets, dtype=tf.float32)
+
+    for i in range(len(data) - seq_length):
+        yield data[i:i + seq_length], targets[i + seq_length]
 
 
-# Set time_steps to 1440 (24 hours of 60-second windows)
-time_steps = 1440
-X_train_seq, y_train_seq = create_sequences(X_train, y_train, time_steps)
-X_test_seq, y_test_seq = create_sequences(X_test, y_test, time_steps)
+# create dataset using generator
+dataset = tf.data.Dataset.from_generator(
+    lambda: sequence_generator(X, y, seq_len),
+    output_types=(tf.float32, tf.float32),
+    output_shapes=([seq_len, len(X_cols)], [])
+)
 
-X_train_seq = X_train_seq.reshape(
-    X_train_seq.shape[0],
-    X_train_seq.shape[1],
-    X_train_seq.shape[2])
-X_test_seq = X_test_seq.reshape(
-    X_test_seq.shape[0],
-    X_test_seq.shape[1],
-    X_test_seq.shape[2])
-# build model
-model = tf.keras.Sequential([tf.keras.layers.LSTM(50, return_sequences=True,
-                            input_shape=(X_train_seq.shape[1],
-                                         X_train_seq.shape[2])),
-                             tf.keras.layers.Dense(1)])
+# shuffle,batch and prefetch
+dataset = dataset.shuffle(buff_size).batch(
+    batch_size).prefetch(tf.data.AUTOTUNE)
+
+# split dataset into train and test
+total_samples = len(df) - seq_len
+train_size = int(0.8 * total_samples)
+dataset = dataset.enumerate()
+train_dataset = dataset.filter(lambda i, _: i < train_size).map(lambda _, v: v)
+test_dataset = dataset.filter(lambda i, _: i >= train_size).map(lambda _, v: v)
+
+# build LSTM model
+model = tf.keras.Sequential([
+    tf.keras.layers.LSTM(64, return_sequences=False, input_shape=(seq_len, len(X_cols))),
+    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dense(16, activation='relu'),
+    tf.keras.layers.Dense(1)
+])
+
 # compile model
-model.compile(optimizer='adam', loss='mean_squared_error')
-# fit model
-model.fit(
-    X_train_seq,
-    y_train_seq,
-    epochs=10,
-    batch_size=8,
-    validation_data=(
-        X_test_seq,
-        y_test_seq))
-# calculate loss
-loss = model.evaluate(X_test_seq, y_test_seq)
-print(f'loss: {loss}')
-# predictions
-predictions = model.predict(X_test_seq)
-model.save('btc_price_forecast_model.h5')
-print("Model saved as 'btc_price_forecast_model.h5'")
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+              loss='mse',
+              metrics=[tf.keras.metrics.MeanAbsoluteError()])
+
+# callbacks
+early_stop = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss', patience=5, restore_best_weights=True)
+checkpoint = tf.keras.callbacks.ModelCheckpoint(
+    'best_btc_model.h5', save_best_only=True)
+
+# train model
+print("training model:")
+history = model.fit(
+    train_dataset,
+    epochs=20,
+    validation_data=test_dataset,
+    callbacks=[early_stop, checkpoint]
+)
+
+# evaluate on test set
+loss, mae = model.evaluate(test_dataset)
+print(f"test loss (MSE): {loss:.6f}, MAE: {mae:.6f}")
+
+# save final model
+model.save('final_btc_forecast_model.h5')
+print("final model saved as 'final_btc_forecast_model.h5'")
